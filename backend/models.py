@@ -24,7 +24,18 @@ class Todo(Base):
     priority = Column(Integer, default=0, nullable=False)
 
     def __repr__(self):
+        """String representation of Todo."""
         return f"<Todo(id={self.id}, title='{self.title}', completed={self.completed})>"
+    
+    def to_dict(self):
+        """Convert to dictionary."""
+        return {
+            "id": self.id,
+            "title": self.title,
+            "description": self.description,
+            "completed": self.completed,
+            "priority": self.priority
+        }
 
 
 class SchemaMigration(Base):
