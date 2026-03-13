@@ -1,26 +1,77 @@
-import { useState, useEffect } from 'react'
+/**
+ * Todo App - Main Application Component
+ * 
+ * Provides UI for todo management with audio feedback integration.
+ * Supports voice command input and verbal response output.
+ */
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import './App.css'
 
-// Use empty string for production (same domain), fallback to localhost for local dev
+// =============================================================================
+// CONFIGURATION
+// =============================================================================
+
+// API endpoint configuration
 const API_URL = import.meta.env.VITE_API_URL !== undefined 
   ? import.meta.env.VITE_API_URL 
   : 'http://localhost:8000'
 
+// Audio configuration
+const AUDIO_ENABLED = true
+const SPEECH_CONFIDENCE_THRESHOLD = 0.75
+
+// =============================================================================
+// TYPES
+// =============================================================================
+
+// Todo item interface with audio metadata
 interface Todo {
   id: number
   title: string
   description?: string
   completed: boolean
   created_at: string
+  priority?: number
 }
 
+// Audio feedback state
+interface AudioState {
+  isListening: boolean
+  isSpeaking: boolean
+  confidence: number
+}
+
+// =============================================================================
+// MAIN COMPONENT
+// =============================================================================
+
 function App() {
+  // State management
   const [todos, setTodos] = useState<Todo[]>([])
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [audioState, setAudioState] = useState<AudioState>({
+    isListening: false,
+    isSpeaking: false,
+    confidence: 0
+  })
 
+  // Fetch todos on mount
   useEffect(() => {
-    fetch(`${API_URL}/api/todos`).then(r => r.json()).then(setTodos)
+    const fetchTodos = async () => {
+      setIsLoading(true)
+      try {
+        const response = await fetch(`${API_URL}/api/todos`)
+        const data = await response.json()
+        setTodos(data)
+      } catch (error) {
+        console.error('Failed to fetch todos:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchTodos()
   }, [])
 
   const addTodo = async (e: React.FormEvent) => {
