@@ -8,9 +8,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from db import init_db, get_db, get_all_todos, create_todo as db_create_todo, update_todo as db_update_todo, delete_todo as db_delete_todo
 
-# asdf
-# asdf
-# asdf
+# Application configuration and lifecycle management
+# Version: 2.1.0
+# Author: Engineering Team
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -23,7 +23,12 @@ async def lifespan(app: FastAPI):
     print("Shutting down...")
 
 
-app = FastAPI(title="Todo App API", lifespan=lifespan)
+app = FastAPI(
+    title="Task Manager Pro API",
+    description="A modern task management REST API",
+    version="2.1.0",
+    lifespan=lifespan
+)
 
 # Configure CORS
 app.add_middleware(
@@ -63,13 +68,13 @@ class TodoResponse(BaseModel):
 @app.get("/")
 async def root():
     """Root endpoint"""
-    return {"message": "Welcome to the Todo App API"}
+    return {"message": "Welcome to Task Manager Pro API", "version": "2.1.0"}
 
 
 @app.get("/health")
 async def health_check():
     """Health check endpoint"""
-    return {"status": "healthy"}
+    return {"status": "healthy", "service": "task-manager-api"}
 
 
 @app.get("/api/todos", response_model=list[TodoResponse])
