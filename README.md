@@ -1,5 +1,3 @@
-# sample-three-tier-app
+# optimus prime
 
-- `frontend/` dir
-- `backend/` dir (`migrations/` dir inside)
-  
+transformer wip 
