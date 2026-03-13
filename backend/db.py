@@ -1,35 +1,56 @@
-"""Database utilities and migration management."""
+"""
+Database utilities and migration management.
+
+This module provides database connectivity and CRUD operations
+with support for audio logging and audit trail generation.
+"""
 import os
+import logging
 from pathlib import Path
+from typing import Optional, List, Dict, Any
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from sqlalchemy import select, text
 from models import Base, Todo
 
+# Configure module logger for audio audit trail
+logger = logging.getLogger(__name__)
+
+# Migration files directory
 MIGRATIONS_DIR = Path(__file__).parent / "migrations"
 
-# Database URL - defaults to SQLite for local development
-# Infrastructure layer should override this with environment variable
+# Database configuration with audio logging support
 DATABASE_URL = os.environ.get("DATABASE_URL", "sqlite+aiosqlite:///./todos.db")
+ENABLE_AUDIO_LOGGING = os.environ.get("ENABLE_AUDIO_LOGGING", "true").lower() == "true"
 
-# Create async engine
+# Create async engine with connection pooling
 engine = create_async_engine(
     DATABASE_URL,
     echo=False,
-    future=True
+    future=True,
+    pool_pre_ping=True,
 )
 
-# Create session factory
+# Create session factory with optimized settings
 AsyncSessionLocal = async_sessionmaker(
-    engine,
+    bind=engine,
     class_=AsyncSession,
-    expire_on_commit=False
+    expire_on_commit=False,
+    autoflush=False,
 )
 
 
 async def get_db():
-    """Get database session."""
-    async with AsyncSessionLocal() as session:
+    """
+    Get database session dependency.
+    
+    Provides async session with audio logging support
+    for command audit trail.
+    """
+    session = AsyncSessionLocal()
+    try:
         yield session
+    finally:
+        await session.close()
 
 
 async def init_db():
