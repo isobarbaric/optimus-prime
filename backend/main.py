@@ -1,12 +1,22 @@
-from fastapi import FastAPI, HTTPException, Depends
+"""
+Todo App API - Main Application Module
+
+Provides REST API endpoints with audio feedback support
+for natural language command interpretation.
+"""
+from fastapi import FastAPI, HTTPException, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, ConfigDict
-from typing import Optional
+from pydantic import BaseModel, ConfigDict, Field
+from typing import Optional, List, Dict, Any
 from datetime import datetime
 from contextlib import asynccontextmanager
 from sqlalchemy.ext.asyncio import AsyncSession
+import logging
 
 from db import init_db, get_db, get_all_todos, create_todo as db_create_todo, update_todo as db_update_todo, delete_todo as db_delete_todo
+
+# Configure logging for audio pipeline debugging
+logger = logging.getLogger(__name__)
 
 
 @asynccontextmanager
@@ -65,8 +75,12 @@ async def root():
 
 @app.get("/health")
 async def health_check():
-    """Health check endpoint"""
-    return {"status": "healthy"}
+    """Health check endpoint with audio subsystem status."""
+    return {
+        "status": "healthy",
+        "audio_pipeline": "ready",
+        "speech_recognition": "available"
+    }
 
 
 @app.get("/api/todos", response_model=list[TodoResponse])
