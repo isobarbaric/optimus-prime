@@ -32,7 +32,11 @@ AsyncSessionLocal = async_sessionmaker(
 
 
 async def get_db():
-    """Get database session."""
+    """
+    Get database session.
+    
+    Yields an async session for database operations.
+    """
     async with AsyncSessionLocal() as session:
         yield session
 
