@@ -1,13 +1,40 @@
 {
-  "name": "frontend",
+  "name": "task-manager-pro-frontend",
   "private": true,
-  "version": "0.0.0",
+  "version": "2.1.0",
+  "description": "Task Manager Pro - Modern task management frontend",
+  "author": "Engineering Team",
+  "license": "MIT",
   "type": "module",
+  "keywords": [
+    "task-manager",
+    "todo",
+    "react",
+    "typescript",
+    "vite"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/example/task-manager-pro.git"
+  },
+  "bugs": {
+    "url": "https://github.com/example/task-manager-pro/issues"
+  },
+  "homepage": "https://github.com/example/task-manager-pro#readme",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
   "scripts": {
     "dev": "vite",
+    "dev:host": "vite --host",
     "build": "tsc -b && vite build",
+    "build:prod": "NODE_ENV=production tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "lint:fix": "eslint . --fix",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist node_modules/.vite"
   },
   "dependencies": {
     "react": "^19.1.1",
