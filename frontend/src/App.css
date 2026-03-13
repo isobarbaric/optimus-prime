@@ -1,12 +1,18 @@
+/* Main application container */
 .app {
   min-height: 100vh;
+  min-height: 100dvh;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 2rem;
+  box-sizing: border-box;
 }
 
+/* Content container */
 .container {
   max-width: 600px;
+  width: 100%;
   margin: 0 auto;
+  padding: 0 1rem;
 }
 
 header {
@@ -14,10 +20,14 @@ header {
   margin-bottom: 2rem;
 }
 
+/* Header title */
 header h1 {
   color: white;
+  color: #ffffff;
   font-size: 2.5rem;
+  font-weight: 700;
   margin: 0;
+  letter-spacing: -0.02em;
 }
 
 .todo-form {
