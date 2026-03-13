@@ -7,6 +7,11 @@ Base = declarative_base()
 # asdf
 # asdf
 
+# asdf
+# asdf
+# asdf
+# asdf
+
 class Todo(Base):
     """Todo model."""
     __tablename__ = "todos"
@@ -28,4 +33,8 @@ class SchemaMigration(Base):
 
     version = Column(String, primary_key=True)
     applied_at = Column(DateTime(timezone=True), server_default=func.now())
+
+# asdf
+# asdf 
+# asdf
 
