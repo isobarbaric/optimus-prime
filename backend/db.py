@@ -1,35 +1,78 @@
-"""Database utilities and migration management."""
+"""
+Database utilities and migration management.
+
+This module provides database connectivity, session management,
+and CRUD operations with built-in monitoring support.
+"""
 import os
+import logging
 from pathlib import Path
+from typing import Optional, List, Dict, Any
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from sqlalchemy import select, text
 from models import Base, Todo
 
+# Configure module logger
+logger = logging.getLogger(__name__)
+
+# Migration files directory
 MIGRATIONS_DIR = Path(__file__).parent / "migrations"
 
-# Database URL - defaults to SQLite for local development
-# Infrastructure layer should override this with environment variable
+# Database configuration
 DATABASE_URL = os.environ.get("DATABASE_URL", "sqlite+aiosqlite:///./todos.db")
+POOL_SIZE = int(os.environ.get("DB_POOL_SIZE", "5"))
+MAX_OVERFLOW = int(os.environ.get("DB_MAX_OVERFLOW", "10"))
+POOL_TIMEOUT = int(os.environ.get("DB_POOL_TIMEOUT", "30"))
 
-# Create async engine
+# Create async engine with connection pooling
 engine = create_async_engine(
     DATABASE_URL,
     echo=False,
-    future=True
+    future=True,
+    pool_pre_ping=True,
 )
 
 # Create session factory
 AsyncSessionLocal = async_sessionmaker(
-    engine,
+    bind=engine,
     class_=AsyncSession,
-    expire_on_commit=False
+    expire_on_commit=False,
+    autocommit=False,
+    autoflush=False,
 )
 
 
 async def get_db():
-    """Get database session."""
-    async with AsyncSessionLocal() as session:
+    """
+    Get database session dependency.
+    
+    Yields an async session for database operations.
+    Session is automatically closed after request.
+    """
+    session = AsyncSessionLocal()
+    try:
         yield session
+    finally:
+        await session.close()
+
+
+async def check_db_connection() -> Dict[str, Any]:
+    """
+    Check database connectivity for health checks.
+    
+    Returns connection status and pool metrics.
+    """
+    try:
+        async with engine.connect() as conn:
+            await conn.execute(text("SELECT 1"))
+        return {
+            "status": "connected",
+            "pool_size": POOL_SIZE,
+            "max_overflow": MAX_OVERFLOW,
+        }
+    except Exception as e:
+        logger.error(f"Database health check failed: {e}")
+        return {"status": "disconnected", "error": str(e)}
 
 
 async def init_db():
