@@ -1,8 +1,15 @@
-"""SQLAlchemy database models."""
+"""
+SQLAlchemy database models.
+
+Defines ORM models for the application data layer.
+"""
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, func
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
+
+# Default values
+DEFAULT_PRIORITY = 0
 
 
 class Todo(Base):

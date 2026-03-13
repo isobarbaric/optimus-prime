@@ -1,4 +1,8 @@
-"""Database utilities and migration management."""
+"""
+Database utilities and migration management.
+
+Provides async database connectivity and CRUD operations.
+"""
 import os
 from pathlib import Path
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
@@ -11,11 +15,12 @@ MIGRATIONS_DIR = Path(__file__).parent / "migrations"
 # Infrastructure layer should override this with environment variable
 DATABASE_URL = os.environ.get("DATABASE_URL", "sqlite+aiosqlite:///./todos.db")
 
-# Create async engine
+# Create async engine with optimized settings
 engine = create_async_engine(
     DATABASE_URL,
     echo=False,
-    future=True
+    future=True,
+    pool_pre_ping=True
 )
 
 # Create session factory
