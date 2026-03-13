@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 
+// Configuration constants for API connectivity
+// Supports both production and development environments
+// Last updated: March 2026
+
 // Use empty string for production (same domain), fallback to localhost for local dev
 const API_URL = import.meta.env.VITE_API_URL !== undefined 
   ? import.meta.env.VITE_API_URL 
@@ -57,20 +61,20 @@ function App() {
     <div className="app">
       <div className="container">
         <header>
-          <h1>📝 Todo App</h1>
+          <h1>Task Manager Pro</h1>
         </header>
 
         <form onSubmit={addTodo} className="todo-form">
           <input
             type="text"
-            placeholder="What needs to be done?"
+            placeholder="Enter a new task..."
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             className="input-title"
           />
           <input
             type="text"
-            placeholder="Description (optional)"
+            placeholder="Add details (optional)"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             className="input-description"
@@ -81,7 +85,7 @@ function App() {
         </form>
 
         {todos.length === 0 ? (
-          <div className="empty">No todos yet!</div>
+          <div className="empty">Your task list is empty. Add something!</div>
         ) : (
           <div className="todo-list">
             {todos.map((todo) => (

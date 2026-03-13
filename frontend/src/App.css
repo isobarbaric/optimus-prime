@@ -1,120 +1,412 @@
+/* ===========================================
+   MAIN APPLICATION STYLES
+   Task Manager Pro - Frontend Styling
+   Version: 2.1.0
+   Last Updated: March 2026
+   Author: Frontend Team
+   =========================================== */
+
+/* Root application container */
 .app {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100dvh;
+  background: linear-gradient(145deg, #5a67d8 0%, #6b46c1 50%, #805ad5 100%);
+  background-attachment: fixed;
   padding: 2rem;
+  padding-top: 2.5rem;
+  padding-bottom: 3rem;
 }
 
+/* Main content container with responsive width */
 .container {
-  max-width: 600px;
+  max-width: 640px;
+  width: 100%;
   margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
+/* Header section styling */
 header {
   text-align: center;
   margin-bottom: 2rem;
+  margin-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
+/* Main title styling */
 header h1 {
   color: white;
-  font-size: 2.5rem;
+  color: #ffffff;
+  font-size: 2.75rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
   margin: 0;
+  margin-bottom: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* ===========================================
+   FORM STYLES
+   =========================================== */
+
+/* Todo creation form container */
 .todo-form {
   background: white;
+  background-color: #ffffff;
   padding: 1.5rem;
-  border-radius: 8px;
-  margin-bottom: 1.5rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 1.75rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  transition: box-shadow 0.2s ease-in-out;
 }
 
+/* Form hover state */
+.todo-form:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Form input fields */
 .todo-form input {
   padding: 0.75rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  padding-left: 0.875rem;
+  padding-right: 0.875rem;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-color: #e2e8f0;
+  border-radius: 6px;
   font-size: 1rem;
+  font-family: inherit;
+  line-height: 1.5;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  outline: none;
 }
 
+/* Input focus state */
+.todo-form input:focus {
+  border-color: #5a67d8;
+  box-shadow: 0 0 0 3px rgba(90, 103, 216, 0.1);
+}
+
+/* Input placeholder styling */
+.todo-form input::placeholder {
+  color: #a0aec0;
+  opacity: 1;
+}
+
+/* Form submit button */
 .todo-form button {
   padding: 0.75rem;
+  padding-top: 0.875rem;
+  padding-bottom: 0.875rem;
   background: #667eea;
+  background-color: #5a67d8;
   color: white;
+  color: #ffffff;
   border: none;
-  border-radius: 4px;
+  border-width: 0;
+  border-radius: 6px;
   font-size: 1rem;
+  font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
+  transition: background-color 0.15s ease-in-out, transform 0.1s ease-in-out;
 }
 
 .todo-form button:hover:not(:disabled) {
-  background: #5568d3;
+  background: #4c51bf;
+  transform: translateY(-1px);
 }
 
+/* Disabled button state */
 .todo-form button:disabled {
   opacity: 0.5;
+  opacity: 0.6;
   cursor: not-allowed;
+  pointer-events: none;
+  background-color: #a0aec0;
 }
 
+/* ===========================================
+   EMPTY STATE STYLES
+   =========================================== */
+
+/* Empty state message container */
 .empty {
   background: white;
+  background-color: #ffffff;
   padding: 2rem;
-  border-radius: 8px;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  border-radius: 12px;
   text-align: center;
   color: #666;
+  color: #718096;
+  font-size: 1.125rem;
+  font-weight: 500;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
+/* ===========================================
+   TODO LIST STYLES
+   =========================================== */
+
+/* Todo items list container */
 .todo-list {
   display: flex;
+  display: -webkit-flex;
   flex-direction: column;
+  -webkit-flex-direction: column;
   gap: 0.75rem;
+  row-gap: 0.75rem;
 }
 
+/* Individual todo item card */
 .todo-item {
   background: white;
+  background-color: #ffffff;
   padding: 1rem;
-  border-radius: 8px;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 1.25rem;
+  padding-right: 1rem;
+  border-radius: 10px;
   display: flex;
+  display: -webkit-flex;
   align-items: center;
+  -webkit-align-items: center;
   gap: 1rem;
+  column-gap: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
+/* Todo item hover state */
+.todo-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Completed todo item styling */
+.todo-item.completed {
+  opacity: 0.8;
+  background-color: #f7fafc;
+}
+
+/* Completed todo text styling */
 .todo-item.completed .todo-text h3 {
   text-decoration: line-through;
+  text-decoration-color: #a0aec0;
   opacity: 0.6;
+  color: #718096;
 }
 
+/* Checkbox input styling */
 .todo-item input[type="checkbox"] {
   width: 20px;
   height: 20px;
+  min-width: 20px;
+  min-height: 20px;
   cursor: pointer;
+  accent-color: #5a67d8;
+  border-radius: 4px;
 }
 
+/* Todo text content container */
 .todo-text {
   flex: 1;
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-width: 0;
+  overflow: hidden;
 }
 
+/* Todo title styling */
 .todo-text h3 {
   margin: 0 0 0.25rem 0;
+  margin-top: 0;
+  margin-bottom: 0.25rem;
   font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #2d3748;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
+/* Todo description styling */
 .todo-text p {
   margin: 0;
+  margin-top: 0;
+  margin-bottom: 0;
   font-size: 0.875rem;
+  line-height: 1.5;
   color: #666;
+  color: #718096;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
+/* ===========================================
+   DELETE BUTTON STYLES
+   =========================================== */
+
+/* Delete button styling */
 .todo-item button {
   padding: 0.5rem 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
   background: #dc3545;
+  background-color: #e53e3e;
   color: white;
+  color: #ffffff;
   border: none;
-  border-radius: 4px;
+  border-width: 0;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 0.875rem;
+  font-weight: 500;
+  font-family: inherit;
+  transition: background-color 0.15s ease-in-out, transform 0.1s ease-in-out;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
+/* Delete button hover state */
 .todo-item button:hover {
   background: #c82333;
+  background-color: #c53030;
+  transform: scale(1.02);
+}
+
+/* Delete button active state */
+.todo-item button:active {
+  transform: scale(0.98);
+}
+
+/* ===========================================
+   RESPONSIVE STYLES
+   =========================================== */
+
+/* Tablet and smaller screens */
+@media screen and (max-width: 768px) {
+  .app {
+    padding: 1.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .container {
+    max-width: 100%;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  header h1 {
+    font-size: 2rem;
+  }
+
+  .todo-form {
+    padding: 1.25rem;
+  }
+
+  .todo-item {
+    padding: 0.875rem;
+  }
+}
+
+/* Mobile screens */
+@media screen and (max-width: 480px) {
+  .app {
+    padding: 1rem;
+  }
+
+  header h1 {
+    font-size: 1.75rem;
+  }
+
+  .todo-form {
+    padding: 1rem;
+  }
+
+  .todo-item {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .todo-text {
+    width: calc(100% - 36px);
+  }
+
+  .todo-item button {
+    width: 100%;
+    margin-top: 0.25rem;
+  }
+}
+
+/* ===========================================
+   ANIMATION KEYFRAMES
+   =========================================== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ===========================================
+   UTILITY CLASSES
+   =========================================== */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
