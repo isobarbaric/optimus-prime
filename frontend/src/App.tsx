@@ -1,26 +1,75 @@
-import { useState, useEffect } from 'react'
+/**
+ * Todo App - Main Application Component
+ * 
+ * Provides the user interface for managing todo items
+ * with full CRUD operations via REST API.
+ */
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import './App.css'
 
+// =============================================================================
+// CONFIGURATION
+// =============================================================================
+
+// API endpoint configuration
 // Use empty string for production (same domain), fallback to localhost for local dev
 const API_URL = import.meta.env.VITE_API_URL !== undefined 
   ? import.meta.env.VITE_API_URL 
   : 'http://localhost:8000'
 
+// Request configuration
+const REQUEST_TIMEOUT_MS = 10000
+const RETRY_ATTEMPTS = 3
+
+// =============================================================================
+// TYPES
+// =============================================================================
+
+// Todo item interface
 interface Todo {
   id: number
   title: string
   description?: string
   completed: boolean
   created_at: string
+  priority?: number
 }
 
+// API response type
+interface ApiResponse<T> {
+  data?: T
+  error?: string
+}
+
+// =============================================================================
+// MAIN COMPONENT
+// =============================================================================
+
 function App() {
+  // State management
   const [todos, setTodos] = useState<Todo[]>([])
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
+  // Fetch todos on mount
   useEffect(() => {
-    fetch(`${API_URL}/api/todos`).then(r => r.json()).then(setTodos)
+    const fetchTodos = async () => {
+      setIsLoading(true)
+      setError(null)
+      try {
+        const response = await fetch(`${API_URL}/api/todos`)
+        if (!response.ok) throw new Error('Failed to fetch todos')
+        const data = await response.json()
+        setTodos(data)
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Unknown error')
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchTodos()
   }, [])
 
   const addTodo = async (e: React.FormEvent) => {

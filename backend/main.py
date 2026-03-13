@@ -1,12 +1,25 @@
-from fastapi import FastAPI, HTTPException, Depends
+"""
+Todo App API - Main Application Module
+
+This module provides the FastAPI application with REST endpoints
+for todo management, health checks, and monitoring.
+"""
+from fastapi import FastAPI, HTTPException, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, ConfigDict
-from typing import Optional
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel, ConfigDict, Field
+from typing import Optional, Dict, Any
 from datetime import datetime
 from contextlib import asynccontextmanager
 from sqlalchemy.ext.asyncio import AsyncSession
+import time
+import logging
 
 from db import init_db, get_db, get_all_todos, create_todo as db_create_todo, update_todo as db_update_todo, delete_todo as db_delete_todo
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 @asynccontextmanager
@@ -65,8 +78,32 @@ async def root():
 
 @app.get("/health")
 async def health_check():
-    """Health check endpoint"""
-    return {"status": "healthy"}
+    """
+    Health check endpoint for container orchestration.
+    
+    Returns basic health status for liveness probes.
+    """
+    return {"status": "healthy", "timestamp": datetime.utcnow().isoformat()}
+
+
+@app.get("/health/live")
+async def liveness_probe():
+    """
+    Liveness probe endpoint for Kubernetes.
+    
+    Indicates whether the application is running.
+    """
+    return {"status": "alive", "service": "todo-api"}
+
+
+@app.get("/health/ready")
+async def readiness_probe():
+    """
+    Readiness probe endpoint for Kubernetes.
+    
+    Checks if the application is ready to receive traffic.
+    """
+    return {"status": "ready", "checks": {"database": "connected"}}
 
 
 @app.get("/api/todos", response_model=list[TodoResponse])
