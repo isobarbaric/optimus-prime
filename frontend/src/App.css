@@ -1,54 +1,188 @@
+/* =============================================================================
+   TODO APP - MAIN STYLESHEET
+   =============================================================================
+   
+   Styles for the Todo application with monitoring dashboard support.
+   
+   Contents:
+   1. CSS Variables
+   2. Base Styles
+   3. Layout
+   4. Components
+   5. States
+   6. Animations
+   7. Responsive
+   ============================================================================= */
+
+/* =============================================================================
+   1. CSS VARIABLES
+   ============================================================================= */
+
+:root {
+  /* Colors - Primary */
+  --color-primary-50: #eef2ff;
+  --color-primary-100: #e0e7ff;
+  --color-primary-200: #c7d2fe;
+  --color-primary-300: #a5b4fc;
+  --color-primary-400: #818cf8;
+  --color-primary-500: #667eea;
+  --color-primary-600: #5568d3;
+  --color-primary-700: #4f46e5;
+  
+  /* Colors - Secondary */
+  --color-secondary-500: #764ba2;
+  
+  /* Colors - Neutral */
+  --color-white: #ffffff;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  
+  /* Colors - Status (for monitoring) */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-danger: #dc3545;
+  --color-danger-hover: #c82333;
+  --color-info: #3b82f6;
+  
+  /* Typography */
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 2rem;
+  --font-size-4xl: 2.5rem;
+  
+  /* Spacing */
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.25rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  
+  /* Border Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 200ms ease;
+}
+
+/* =============================================================================
+   2. BASE STYLES
+   ============================================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+  color: var(--color-gray-800);
+}
+
+/* =============================================================================
+   3. LAYOUT
+   ============================================================================= */
+
 .app {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 2rem;
+  min-height: 100dvh;
+  background: linear-gradient(135deg, var(--color-primary-500) 0%, var(--color-secondary-500) 100%);
+  padding: var(--spacing-8);
 }
 
 .container {
   max-width: 600px;
+  width: 100%;
   margin: 0 auto;
+  padding: 0 var(--spacing-4);
 }
 
+/* =============================================================================
+   4. COMPONENTS
+   ============================================================================= */
+
+/* Header */
 header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: var(--spacing-8);
 }
 
 header h1 {
-  color: white;
-  font-size: 2.5rem;
+  color: var(--color-white);
+  font-size: var(--font-size-4xl);
+  font-weight: 700;
   margin: 0;
+  letter-spacing: -0.02em;
 }
 
+/* Form */
 .todo-form {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 8px;
-  margin-bottom: 1.5rem;
+  background: var(--color-white);
+  padding: var(--spacing-6);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--spacing-6);
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: var(--spacing-3);
+  box-shadow: var(--shadow-md);
 }
 
 .todo-form input {
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
+  padding: var(--spacing-3);
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  font-family: inherit;
+  transition: border-color var(--transition-fast);
+}
+
+.todo-form input:focus {
+  outline: none;
+  border-color: var(--color-primary-500);
+  box-shadow: 0 0 0 3px var(--color-primary-100);
 }
 
 .todo-form button {
-  padding: 0.75rem;
-  background: #667eea;
-  color: white;
+  padding: var(--spacing-3);
+  background: var(--color-primary-500);
+  color: var(--color-white);
   border: none;
-  border-radius: 4px;
-  font-size: 1rem;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  font-weight: 600;
   cursor: pointer;
+  transition: background-color var(--transition-fast);
 }
 
 .todo-form button:hover:not(:disabled) {
-  background: #5568d3;
+  background: var(--color-primary-600);
 }
 
 .todo-form button:disabled {
@@ -56,65 +190,204 @@ header h1 {
   cursor: not-allowed;
 }
 
+/* Empty State */
 .empty {
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
+  background: var(--color-white);
+  padding: var(--spacing-8);
+  border-radius: var(--radius-lg);
   text-align: center;
-  color: #666;
+  color: var(--color-gray-500);
+  box-shadow: var(--shadow-sm);
 }
 
+/* Todo List */
 .todo-list {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: var(--spacing-3);
 }
 
+/* Todo Item */
 .todo-item {
-  background: white;
-  padding: 1rem;
-  border-radius: 8px;
+  background: var(--color-white);
+  padding: var(--spacing-4);
+  border-radius: var(--radius-lg);
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: var(--spacing-4);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.todo-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* =============================================================================
+   5. STATES
+   ============================================================================= */
+
+.todo-item.completed {
+  background: var(--color-gray-100);
 }
 
 .todo-item.completed .todo-text h3 {
   text-decoration: line-through;
   opacity: 0.6;
+  color: var(--color-gray-500);
 }
 
 .todo-item input[type="checkbox"] {
   width: 20px;
   height: 20px;
   cursor: pointer;
+  accent-color: var(--color-primary-500);
 }
 
 .todo-text {
   flex: 1;
+  min-width: 0;
 }
 
 .todo-text h3 {
-  margin: 0 0 0.25rem 0;
-  font-size: 1rem;
+  margin: 0 0 var(--spacing-1) 0;
+  font-size: var(--font-size-base);
+  font-weight: 600;
 }
 
 .todo-text p {
   margin: 0;
-  font-size: 0.875rem;
-  color: #666;
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-500);
 }
 
 .todo-item button {
-  padding: 0.5rem 1rem;
-  background: #dc3545;
-  color: white;
+  padding: var(--spacing-2) var(--spacing-4);
+  background: var(--color-danger);
+  color: var(--color-white);
   border: none;
-  border-radius: 4px;
+  border-radius: var(--radius-md);
   cursor: pointer;
-  font-size: 0.875rem;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  transition: background-color var(--transition-fast);
 }
 
 .todo-item button:hover {
-  background: #c82333;
+  background: var(--color-danger-hover);
 }
+
+/* Loading State */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-8);
+  color: var(--color-white);
+}
+
+/* Error State */
+.error {
+  background: var(--color-error);
+  color: var(--color-white);
+  padding: var(--spacing-4);
+  border-radius: var(--radius-md);
+  text-align: center;
+  margin-bottom: var(--spacing-4);
+}
+
+/* =============================================================================
+   6. ANIMATIONS
+   ============================================================================= */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* =============================================================================
+   7. RESPONSIVE
+   ============================================================================= */
+
+@media (max-width: 640px) {
+  .app {
+    padding: var(--spacing-4);
+  }
+  
+  .container {
+    padding: 0 var(--spacing-2);
+  }
+  
+  header h1 {
+    font-size: var(--font-size-2xl);
+  }
+  
+  .todo-form {
+    padding: var(--spacing-4);
+  }
+  
+  .todo-item {
+    padding: var(--spacing-3);
+    gap: var(--spacing-3);
+  }
+}
+
+@media (max-width: 480px) {
+  .todo-item {
+    flex-wrap: wrap;
+  }
+  
+  .todo-text {
+    width: calc(100% - 36px);
+  }
+  
+  .todo-item button {
+    width: 100%;
+    margin-top: var(--spacing-2);
+  }
+}
+
+/* =============================================================================
+   8. UTILITY CLASSES
+   ============================================================================= */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.hidden { display: none; }
+.block { display: block; }
+.flex { display: flex; }
+
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+
+.w-full { width: 100%; }
+.h-full { height: 100%; }
