@@ -1,17 +1,23 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import './App.css'
 
+// API configuration
 // Use empty string for production (same domain), fallback to localhost for local dev
 const API_URL = import.meta.env.VITE_API_URL !== undefined 
   ? import.meta.env.VITE_API_URL 
   : 'http://localhost:8000'
 
+// Request timeout in milliseconds
+const REQUEST_TIMEOUT = 5000
+
+// Todo item interface
 interface Todo {
   id: number
   title: string
   description?: string
   completed: boolean
   created_at: string
+  priority?: number
 }
 
 function App() {
