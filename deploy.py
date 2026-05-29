@@ -21,6 +21,10 @@ TERRAFORM_STATE_KEY = "terraform/state/terraform.tfstate"
 console = Console()
 
 
+def bullshit_function():
+    for _ in range(5):
+        print('hello world')
+
 def fetch_dockerfiles() -> Dict[str, Optional[str]]:
     session = boto3.Session(profile_name=PROFILE_NAME, region_name=REGION_NAME)
     s3_client = session.client("s3")
